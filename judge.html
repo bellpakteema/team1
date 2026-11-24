@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Console - AcademicVerse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-teal-500 text-slate-900 p-2 rounded-lg font-bold text-xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <a href="index.html" class="font-extrabold text-xl tracking-tight brand-gradient-text">AcademicVerse</a>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-2">
+                    <a href="index.html" class="nav-pill nav-role-link" data-page="student">Student</a>
+                    <a href="judge.html" class="nav-pill nav-role-link" data-page="judge">Judge</a>
+                    <a href="admin.html" class="nav-pill nav-role-link" data-page="admin">Admin</a>
+                </nav>
+
+                <div class="flex items-center space-x-3 border-l border-slate-700 pl-4">
+                    <div class="text-right hidden sm:block">
+                        <div id="nav-user-name" class="text-sm font-semibold text-white">คณะกรรมการตัดสิน</div>
+                        <div id="nav-user-role" class="text-xs text-teal-400 font-mono">Evaluator Role</div>
+                    </div>
+                    <div id="nav-user-avatar" class="w-9 h-9 rounded-full bg-slate-700 border border-teal-400/50 flex items-center justify-center text-teal-300 font-bold text-sm">JD</div>
+                    <a href="login.html" title="ออกจากระบบ" class="text-slate-400 hover:text-rose-400 transition-colors ml-2 text-sm p-1.5 rounded-lg hover:bg-slate-800">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-gavel text-teal-600"></i>
+                    <span>ระบบประเมินผลและตัดสิน (Judge Console)</span>
+                </h1>
+                <p class="text-slate-500 text-sm mt-1">เลือกรายการผลงานเพื่อตรวจประเมินตามเกณฑ์ Rubrics มาตรฐาน ระบบจะบันทึกและซิงค์คะแนนอัตโนมัติ</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold px-3 py-1.5 bg-teal-50 text-teal-800 border border-teal-200 rounded-lg">
+                    <i class="fa-solid fa-signal mr-1 text-teal-600"></i> ระบบออนไลน์ เชื่อมต่อฐานข้อมูลพร้อมใช้งาน
+                </span>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            
+            <!-- Left Column: Submission Queue -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
+                <div class="flex items-center justify-between px-2 pb-2 border-b border-slate-100">
+                    <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-list-check text-teal-600"></i>
+                        <span>คิวผลงานที่ส่งเข้าประกวด</span>
+                    </h3>
+                    <span id="judge-queue-count" class="badge badge-primary">0 งาน</span>
+                </div>
+
+                <!-- Submission List Container -->
+                <div id="judge-submission-list" class="space-y-2.5 max-h-[620px] overflow-y-auto pr-1">
+                    <!-- Populated dynamically by app.js -->
+                </div>
+            </div>
+
+            <!-- Right Column: Scoring & Details Panel -->
+            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 space-y-6">
+                
+                <!-- Project Header -->
+                <div class="border-b pb-4 flex flex-col sm:flex-row justify-between sm:items-start gap-3">
+                    <div class="space-y-1">
+                        <span id="judge-panel-category" class="badge badge-primary text-xs">
+                            หมวดนวัตกรรม
+                        </span>
+                        <h2 id="judge-panel-title" class="text-xl font-bold text-slate-900">
+                            กรุณาเลือกผลงานจากคิวด้านซ้าย
+                        </h2>
+                        <p id="judge-panel-meta" class="text-xs text-slate-500 font-medium">
+                            ส่งเมื่อ: - | ผู้พัฒนา: -
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a id="judge-panel-demolink" href="#" target="_blank" class="hidden text-teal-600 hover:text-teal-700 text-xs font-semibold flex items-center gap-1 border border-teal-200 bg-teal-50/50 px-3 py-1.5 rounded-lg transition-colors">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> ลิงก์ผลงานจริง
+                        </a>
+                        <a id="judge-panel-pdflink" href="javascript:void(0)" onclick="showToast('เอกสารโครงการ', 'จำลองการเปิดไฟล์ PDF เอกสารโครงการ', 'info')" class="text-teal-600 hover:text-teal-700 text-xs font-semibold flex items-center gap-1 border border-teal-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors">
+                            <i class="fa-solid fa-file-pdf"></i> เอกสารโครงการ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Summary -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+                    <div class="text-xs font-bold text-slate-700 uppercase tracking-wider">สรุปย่อโครงการ:</div>
+                    <p id="judge-panel-desc" class="text-xs text-slate-600 leading-relaxed">
+                        -
+                    </p>
+                </div>
+
+                <!-- Rubrics Evaluation Section -->
+                <div class="space-y-5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders text-teal-600"></i>
+                            <span>เกณฑ์การประเมินคะแนน (Rubrics Standard):</span>
+                        </h4>
+                        <div class="text-sm">
+                            <span class="text-slate-500 text-xs font-medium">คะแนนรวมที่ได้: </span>
+                            <span id="score-total-val" class="font-extrabold text-teal-700 text-lg">0 / 100</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Criterion 1 -->
+                    <div class="p-3.5 bg-white rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center text-sm">
+                            <label class="font-semibold text-slate-700 text-xs sm:text-sm">1. ความคิดสร้างสรรค์และความแปลกใหม่ (Innovation & Creativity)</label>
+                            <span class="font-bold text-teal-700 text-sm" id="score1-val">25 / 30</span>
+                        </div>
+                        <input id="score-innovation" type="range" min="0" max="30" value="25" class="w-full">
+                        <div class="flex justify-between text-[11px] text-slate-400">
+                            <span>0 (เริ่มต้น)</span>
+                            <span>15 (ปานกลาง)</span>
+                            <span>30 (ดีเยี่ยม/โดดเด่น)</span>
+                        </div>
+                    </div>
+
+                    <!-- Criterion 2 -->
+                    <div class="p-3.5 bg-white rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center text-sm">
+                            <label class="font-semibold text-slate-700 text-xs sm:text-sm">2. การออกแบบสถาปัตยกรรมและซอฟต์แวร์ (Technical Architecture)</label>
+                            <span class="font-bold text-teal-700 text-sm" id="score2-val">35 / 40</span>
+                        </div>
+                        <input id="score-technical" type="range" min="0" max="40" value="35" class="w-full">
+                        <div class="flex justify-between text-[11px] text-slate-400">
+                            <span>0 (ต้องปรับปรุง)</span>
+                            <span>20 (ทำงานได้ตามโจทย์)</span>
+                            <span>40 (สถาปัตยกรรมระดับมาตรฐานสากล)</span>
+                        </div>
+                    </div>
+
+                    <!-- Criterion 3 -->
+                    <div class="p-3.5 bg-white rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center text-sm">
+                            <label class="font-semibold text-slate-700 text-xs sm:text-sm">3. ความสมบูรณ์และการนำไปใช้งานจริง (Completeness & Impact)</label>
+                            <span class="font-bold text-teal-700 text-sm" id="score3-val">26 / 30</span>
+                        </div>
+                        <input id="score-completeness" type="range" min="0" max="30" value="26" class="w-full">
+                        <div class="flex justify-between text-[11px] text-slate-400">
+                            <span>0 (ตัวต้นแบบเบื้องต้น)</span>
+                            <span>15 (ใช้งานได้บางส่วน)</span>
+                            <span>30 (พร้อมต่อยอดสู่ผู้ใช้งานจริง)</span>
+                        </div>
+                    </div>
+
+                    <!-- Feedback -->
+                    <div class="pt-1">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5" for="judge-feedback">
+                            <i class="fa-regular fa-comment-dots mr-1 text-teal-600"></i> ข้อเสนอแนะเพิ่มเติมจากกรรมการ:
+                        </label>
+                        <textarea id="judge-feedback" rows="3" class="form-control" placeholder="ระบุจุดเด่น ข้อดี และจุดที่สามารถพัฒนาต่อยอดได้ เพื่อประโยชน์ของผู้เข้าแข่งขัน..."></textarea>
+                    </div>
+
+                    <button id="btn-save-score" class="btn btn-primary w-full py-3 text-base shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>บันทึกคะแนนการตัดสิน</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        AcademicVerse &copy; 2026 ระบบการแข่งขันวิชาการและจัดแสดงผลงานนวัตกรรมแห่งชาติ
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initJudgeConsole();
+        });
+    </script>
+</body>
+</html>

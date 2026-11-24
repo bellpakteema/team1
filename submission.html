@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ส่งผลงานการแข่งขัน - AcademicVerse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-teal-500 text-slate-900 p-2 rounded-lg font-bold text-xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <a href="index.html" class="font-extrabold text-xl tracking-tight brand-gradient-text">AcademicVerse</a>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-2">
+                    <a href="index.html" class="nav-pill nav-role-link" data-page="student">Student</a>
+                    <a href="judge.html" class="nav-pill nav-role-link" data-page="judge">Judge</a>
+                    <a href="admin.html" class="nav-pill nav-role-link" data-page="admin">Admin</a>
+                </nav>
+
+                <div class="flex items-center space-x-3 border-l border-slate-700 pl-4">
+                    <div class="text-right hidden sm:block">
+                        <div id="nav-user-name" class="text-sm font-semibold text-white">สาธิต แซ่หล่อ</div>
+                        <div id="nav-user-role" class="text-xs text-teal-400 font-mono">Participant</div>
+                    </div>
+                    <div id="nav-user-avatar" class="w-9 h-9 rounded-full bg-slate-700 border border-teal-400/50 flex items-center justify-center text-teal-300 font-bold text-sm">ST</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-2xl w-full mx-auto px-4 py-10">
+        <div class="custom-card p-6 sm:p-8 space-y-6">
+            <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                <div>
+                    <h1 class="font-bold text-xl text-slate-900">ฟอร์มส่งผลงานวิชาการ / ประกวดนวัตกรรม</h1>
+                    <p class="text-xs text-slate-500 mt-1">กรุณากรอกข้อมูลและแนบไฟล์รายละเอียดโครงการเพื่อส่งให้คณะกรรมการตัดสิน</p>
+                </div>
+                <a href="index.html" class="text-slate-400 hover:text-slate-600 transition-colors" title="ยกเลิกและย้อนกลับ">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </a>
+            </div>
+
+            <form id="submission-form" class="space-y-4">
+                <!-- Select Competition -->
+                <div class="form-group">
+                    <label class="form-label" for="comp-select">เลือกรายการแข่งขัน <span class="text-rose-500">*</span></label>
+                    <select id="comp-select" class="form-control" required>
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <!-- Project Title -->
+                <div class="form-group">
+                    <label class="form-label" for="project-title">ชื่อผลงาน / นวัตกรรม (Project Title) <span class="text-rose-500">*</span></label>
+                    <input type="text" id="project-title" required class="form-control" placeholder="เช่น ESP32 Organ Care System หรือ AI Chatbot ผู้ช่วยทางการแพทย์">
+                </div>
+
+                <!-- Project Description -->
+                <div class="form-group">
+                    <label class="form-label" for="project-desc">รายละเอียดสรุปย่อของผลงาน</label>
+                    <textarea id="project-desc" rows="4" class="form-control" placeholder="อธิบายแนวคิดหลัก วัตถุประสงค์ สถาปัตยกรรมระบบ และผลลัพธ์ที่ได้รับจากการทดสอบ..."></textarea>
+                </div>
+
+                <!-- PDF File Upload -->
+                <div class="form-group">
+                    <label class="form-label" for="project-file">อัปโหลดไฟล์เอกสาร / รายงานโครงการ (PDF)</label>
+                    <div class="border-2 border-dashed border-slate-300 hover:border-teal-500 rounded-xl p-4 text-center cursor-pointer transition-colors bg-slate-50 relative">
+                        <input type="file" id="project-file" accept=".pdf,.doc,.docx" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-teal-600 mb-1"></i>
+                        <p class="text-xs text-slate-600 font-medium">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์มาวางที่นี่</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">รองรับไฟล์ PDF, DOCX (ขนาดไม่เกิน 25 MB)</p>
+                    </div>
+                    <div id="file-name-display" class="hidden text-xs text-teal-700 font-medium mt-1 bg-teal-50 p-2 rounded-lg border border-teal-200"></div>
+                </div>
+
+                <!-- Demo Link -->
+                <div class="form-group">
+                    <label class="form-label" for="project-url">ลิงก์สาธิตเพิ่มเติม (GitHub / YouTube Demo / เว็บไซต์)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-link text-xs"></i>
+                        </span>
+                        <input type="url" id="project-url" class="form-control pl-8" placeholder="https://github.com/your-username/project-repo">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <a href="index.html" class="btn btn-secondary flex-1">
+                        ยกเลิก
+                    </a>
+                    <button type="submit" class="btn btn-primary flex-1">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> ยืนยันส่งผลงาน
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        AcademicVerse &copy; 2026 ระบบการแข่งขันวิชาการและจัดแสดงผลงานนวัตกรรมแห่งชาติ
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSubmissionPage();
+        });
+    </script>
+</body>
+</html>

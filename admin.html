@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AcademicVerse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-teal-500 text-slate-900 p-2 rounded-lg font-bold text-xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <a href="index.html" class="font-extrabold text-xl tracking-tight brand-gradient-text">AcademicVerse</a>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-2">
+                    <a href="index.html" class="nav-pill nav-role-link" data-page="student">Student</a>
+                    <a href="judge.html" class="nav-pill nav-role-link" data-page="judge">Judge</a>
+                    <a href="admin.html" class="nav-pill nav-role-link" data-page="admin">Admin</a>
+                </nav>
+
+                <div class="flex items-center space-x-3 border-l border-slate-700 pl-4">
+                    <div class="text-right hidden sm:block">
+                        <div id="nav-user-name" class="text-sm font-semibold text-white">ผู้ดูแลระบบ</div>
+                        <div id="nav-user-role" class="text-xs text-teal-400 font-mono">System Admin</div>
+                    </div>
+                    <div id="nav-user-avatar" class="w-9 h-9 rounded-full bg-slate-700 border border-teal-400/50 flex items-center justify-center text-teal-300 font-bold text-sm">AD</div>
+                    <a href="login.html" title="ออกจากระบบ" class="text-slate-400 hover:text-rose-400 transition-colors ml-2 text-sm p-1.5 rounded-lg hover:bg-slate-800">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        
+        <!-- Header Banner -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-teal-600"></i>
+                    <span>แผงควบคุมผู้ดูแลระบบ (Admin Overview)</span>
+                </h1>
+                <p class="text-slate-500 text-sm mt-1">บริหารจัดการการแข่งขัน ผู้เข้าแข่งขัน ผลงานที่ส่ง การตรวจของกรรมการ และระบบประกาศผล</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="btn-reset-demo-data" class="btn btn-outline btn-sm text-xs text-slate-500 hover:text-rose-600" title="รีเซ็ตข้อมูลสู่ค่าเริ่มต้น">
+                    <i class="fa-solid fa-rotate-left"></i> รีเซ็ตข้อมูลทดสอบ
+                </button>
+            </div>
+        </div>
+
+        <!-- 4 Statistics Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="custom-card p-5">
+                <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+                    <span>ผู้ลงทะเบียนทั้งหมด</span>
+                    <i class="fa-solid fa-users text-teal-600"></i>
+                </div>
+                <div id="admin-stat-participants" class="text-2xl font-extrabold text-slate-900 mt-2">1,248</div>
+                <div class="text-xs text-emerald-600 mt-1 flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-trend-up"></i> +12% จากสัปดาห์ก่อน
+                </div>
+            </div>
+
+            <div class="custom-card p-5">
+                <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+                    <span>ผลงานที่ส่งเข้าร่วม</span>
+                    <i class="fa-solid fa-file-invoice text-teal-600"></i>
+                </div>
+                <div id="admin-stat-submissions" class="text-2xl font-extrabold text-slate-900 mt-2">3</div>
+                <div id="admin-stat-progress-text" class="text-xs text-teal-600 font-medium mt-1">
+                    ตรวจแล้ว 78%
+                </div>
+            </div>
+
+            <div class="custom-card p-5">
+                <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+                    <span>รายการแข่งขันที่เปิดรับ</span>
+                    <i class="fa-solid fa-trophy text-amber-500"></i>
+                </div>
+                <div id="admin-stat-competitions" class="text-2xl font-extrabold text-slate-900 mt-2">3</div>
+                <div class="text-xs text-slate-500 mt-1">เปิดรับสมัคร / กำลังตัดสิน</div>
+            </div>
+
+            <div class="custom-card p-5">
+                <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+                    <span>กรรมการตัดสินในระบบ</span>
+                    <i class="fa-solid fa-user-tie text-teal-600"></i>
+                </div>
+                <div id="admin-stat-judges" class="text-2xl font-extrabold text-slate-900 mt-2">36</div>
+                <div class="text-xs text-slate-500 mt-1">แอคทีฟอยู่ 24 ท่าน</div>
+            </div>
+        </div>
+
+        <!-- Competitions Table Section -->
+        <div class="custom-card overflow-hidden">
+            <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">จัดการรายการแข่งขัน (Manage Competitions)</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">ติดตามสถานะการส่งผลงาน และสั่งประกาศผลการแข่งขันเมื่อกรรมการตรวจเสร็จสิ้น</p>
+                </div>
+                <button id="btn-open-add-comp-modal" class="btn btn-dark btn-sm">
+                    <i class="fa-solid fa-plus text-xs"></i> เพิ่มรายการแข่งขันใหม่
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 text-xs font-semibold border-b border-slate-200">
+                            <th class="p-4">ชื่อรายการแข่งขัน</th>
+                            <th class="p-4">ประเภท</th>
+                            <th class="p-4">จำนวนทีมที่ส่ง</th>
+                            <th class="p-4">ความคืบหน้าการประเมิน</th>
+                            <th class="p-4">การจัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-competitions-tbody" class="divide-y divide-slate-100 text-sm">
+                        <!-- Populated dynamically by app.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Add New Competition -->
+    <div id="add-competition-modal" class="modal-backdrop">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-plus text-teal-600"></i>
+                    <span>สร้างรายการแข่งขันใหม่ (Create Competition)</span>
+                </h3>
+                <button id="btn-close-comp-modal" class="text-slate-400 hover:text-slate-600 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="add-competition-form">
+                <div class="modal-body space-y-3">
+                    <div class="form-group">
+                        <label class="form-label" for="new-comp-title">ชื่อรายการแข่งขัน <span class="text-rose-500">*</span></label>
+                        <input type="text" id="new-comp-title" required class="form-control" placeholder="เช่น AI & Robotics Innovation Cup 2026">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="form-group">
+                            <label class="form-label" for="new-comp-category">หมวดหมู่ / ประเภท</label>
+                            <input type="text" id="new-comp-category" class="form-control" placeholder="เช่น Robotics / AI">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new-comp-deadline">กำหนดส่งผลงาน</label>
+                            <input type="text" id="new-comp-deadline" class="form-control" placeholder="เช่น 25 ต.ค. 2026">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-comp-maxteam">จำนวนสมาชิกสูงสุดต่อทีม</label>
+                        <input type="number" id="new-comp-maxteam" value="3" min="1" max="10" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-comp-desc">รายละเอียดและเงื่อนไขการแข่งขัน</label>
+                        <textarea id="new-comp-desc" rows="3" class="form-control" placeholder="อธิบายเป้าหมาย เกณฑ์คุณสมบัติของผู้เข้าแข่งขัน..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-cancel-comp-modal" class="btn btn-secondary">
+                        ยกเลิก
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> บันทึกรายการแข่งขัน
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        AcademicVerse &copy; 2026 ระบบการแข่งขันวิชาการและจัดแสดงผลงานนวัตกรรมแห่งชาติ
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initAdminDashboard();
+        });
+    </script>
+</body>
+</html>

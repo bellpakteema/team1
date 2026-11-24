@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - AcademicVerse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Login Container -->
+    <div class="max-w-md w-full space-y-6">
+        
+        <!-- Logo Header -->
+        <div class="text-center space-y-3">
+            <div class="inline-flex bg-teal-500 text-slate-900 p-3.5 rounded-2xl font-bold text-3xl shadow-lg shadow-teal-500/20">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight brand-gradient-text">AcademicVerse</h1>
+                <p class="text-slate-400 text-xs mt-1">ระบบการแข่งขันวิชาการและจัดแสดงผลงานนวัตกรรม</p>
+            </div>
+        </div>
+
+        <!-- Card Form -->
+        <div class="custom-card p-6 sm:p-8 space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold text-slate-900">เข้าสู่ระบบ (Sign In)</h2>
+                <p class="text-xs text-slate-500">เลือกสิทธิ์การใช้งานและเข้าสู่แพลตฟอร์ม</p>
+            </div>
+
+            <form id="login-form" class="space-y-4">
+                
+                <!-- Role Selection -->
+                <div class="form-group">
+                    <label class="form-label" for="role-select">สิทธิ์การใช้งาน (Role)</label>
+                    <select id="role-select" class="form-control bg-slate-50">
+                        <option value="student">ผู้เข้าแข่งขัน (Student / Participant)</option>
+                        <option value="judge">กรรมการตัดสิน (Judge / Evaluator)</option>
+                        <option value="admin">ผู้ดูแลระบบ (Administrator)</option>
+                    </select>
+                </div>
+
+                <!-- Username / Email Field -->
+                <div class="form-group">
+                    <label class="form-label" for="login-email">อีเมลหรือชื่อผู้ใช้</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-regular fa-envelope"></i>
+                        </span>
+                        <input type="text" id="login-email" required class="form-control pl-10" value="satit@example.com" placeholder="example@domain.com">
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="form-label mb-0">รหัสผ่าน</label>
+                        <a href="javascript:void(0)" onclick="showToast('รีเซ็ตรหัสผ่าน', 'กรุณาติดต่อผู้ดูแลระบบเพื่อรีเซ็ตรหัสผ่าน', 'info')" class="text-xs font-medium text-teal-600 hover:text-teal-700">ลืมรหัสผ่าน?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" required class="form-control pl-10" value="12345678" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="flex items-center">
+                    <input id="remember-me" type="checkbox" checked class="w-4 h-4 text-teal-600 rounded border-slate-300 focus:ring-teal-500">
+                    <label for="remember-me" class="ml-2 text-xs text-slate-600">จดจำการเข้าสู่ระบบ</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-full py-3 shadow-lg shadow-teal-600/20">
+                    <span>เข้าสู่ระบบ</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </form>
+
+            <!-- Quick Demo Access Pills -->
+            <div class="border-t border-slate-100 pt-4">
+                <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 text-center">เข้าสู่ระบบด่วนสำหรับการทดสอบ (Quick Test)</div>
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" onclick="quickLoginAs('student')" class="btn btn-secondary btn-sm text-[11px] py-1.5 px-2">
+                        <i class="fa-solid fa-user-graduate text-teal-600"></i> นักเรียน
+                    </button>
+                    <button type="button" onclick="quickLoginAs('judge')" class="btn btn-secondary btn-sm text-[11px] py-1.5 px-2">
+                        <i class="fa-solid fa-gavel text-amber-600"></i> กรรมการ
+                    </button>
+                    <button type="button" onclick="quickLoginAs('admin')" class="btn btn-secondary btn-sm text-[11px] py-1.5 px-2">
+                        <i class="fa-solid fa-shield-halved text-blue-600"></i> แอดมิน
+                    </button>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100 pt-3 text-center">
+                <p class="text-xs text-slate-500">
+                    ยังไม่มีบัญชีผู้ใช้งาน? 
+                    <a href="javascript:void(0)" onclick="showToast('สมัครสมาชิก', 'เปิดรับสมัครสมาชิกผ่านระบบเครือข่ายสถาบัน', 'info')" class="font-semibold text-teal-600 hover:underline">สมัครสมาชิกที่นี่</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginPage();
+        });
+    </script>
+</body>
+</html>
